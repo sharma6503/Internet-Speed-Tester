@@ -1,0 +1,41 @@
+import  flet as ft
+
+import time
+
+
+class Typewriter(ft.UserControl):
+    def __init__(self,value='',font_family='font4',color='black',transperancy=True):
+        super().__init__()
+        self.text=str(value)
+        self.font_family=font_family
+        self.color=color
+        self.transparency=transperancy
+
+    def did_mount(self):
+        self.effect()
+
+    def update(self):
+        super().update()
+        self.effect()
+
+    def effect(self):
+        self.typewriter_text.value=''
+        for i in range(len(self.text)):
+            self.typewriter_text.value+=self.text[i]+'_'
+            self.typewriter_text.font_family=self.font_family
+            self.typewriter_text.color=self.color
+            if self.transparency==True:
+                self.typewriter_text.opacity=1
+            else:self.typewriter_text.opacity=0
+            self.typewriter_text.update()
+            self.typewriter_text.value=self.typewriter_text.value[:-1]
+            time.sleep(.04)
+        self.typewriter_text.update()
+
+
+
+    def build(self):
+        self.typewriter_text=ft.Text(value='', no_wrap=False)
+        return self.typewriter_text
+
+
